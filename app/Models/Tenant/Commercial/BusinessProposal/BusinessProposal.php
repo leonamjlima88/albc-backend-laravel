@@ -3,7 +3,7 @@
 namespace App\Models\Tenant\Commercial\BusinessProposal;
 
 use App\Http\DataTransferObjects\Tenant\Commercial\BusinessProposal\BusinessProposalDto;
-use App\Models\Tenant\General\BusinessProposal\BusinessProposalProduct;
+use App\Models\Tenant\Commercial\BusinessProposal\BusinessProposalProduct;
 use App\Models\Tenant\General\Person\Person;
 use App\Models\Tenant\General\Status\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,6 +24,7 @@ class BusinessProposal extends Model
     ];
 
     protected $casts = [
+        'business_proposal_product_sum_total' => 'float',
     ];
 
     protected $fillable = [
@@ -34,6 +35,7 @@ class BusinessProposal extends Model
         'public_note',
         'offer_valid_until',
         'delivery_forecast_until',
+        'business_proposal_product_sum_total',
     ];
 
     protected static function boot()

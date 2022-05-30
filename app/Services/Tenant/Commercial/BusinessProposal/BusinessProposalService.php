@@ -35,11 +35,13 @@ class BusinessProposalService
 
   public function store(BusinessProposalDto $dto): BusinessProposalDto|null
   {
+    $this->beforeSave($dto);
     return $this->repository->setTransaction(true)->store($dto);
   }
 
   public function update(int $id, BusinessProposalDto $dto): BusinessProposalDto
   {
+    $this->beforeSave($dto);
     return $this->repository->setTransaction(true)->update($id, $dto);
   }
 
@@ -47,4 +49,14 @@ class BusinessProposalService
   {
     return RoleService::permissionTemplateDefault('business_proposal', 'Proposta Comercial');
   }  
+
+  private function beforeSave(BusinessProposalDto $dto)
+  {
+    // Calcular valores
+    $dto->business_proposal_product_sum_total = 0;
+    foreach ($dto->business_proposal_product as $value) {
+      $value->total = ($value->sale_price - $value->unit_discount) * $value->quantity;      
+      $dto->business_proposal_product_sum_total += $value->total;
+    }
+  }
 }

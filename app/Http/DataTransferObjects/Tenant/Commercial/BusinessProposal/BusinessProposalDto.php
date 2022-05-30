@@ -49,6 +49,9 @@ class BusinessProposalDto extends Data
     #[Rule('nullable|string|min:10')]
     public ?string $delivery_forecast_until,
 
+    #[Rule('nullable|numeric')]
+    public ?float $business_proposal_product_sum_total,
+
     #[Rule('nullable|string|min:10')]
     public ?string $created_at,
 
@@ -56,7 +59,7 @@ class BusinessProposalDto extends Data
     public ?string $updated_at,
 
     /** @var BusinessProposalProductDto[] */
-    public DataCollection $business_proposal_product,
+    public ?DataCollection $business_proposal_product,
   ) {
   }
 

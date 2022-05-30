@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('public_note')->nullable();
             $table->date('offer_valid_until')->nullable()->comment('Proposta válida até');
             $table->date('delivery_forecast_until')->nullable()->comment('Previsão de entrega até');
+            $table->decimal('business_proposal_product_sum_total', 15, 4)->nullable();
             $table->timestamps();
         });
     }

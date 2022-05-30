@@ -10,7 +10,7 @@ class BusinessProposalProduct extends Model
 {
     use HasFactory;
 
-    protected $table = 'business_proposal';
+    protected $table = 'business_proposal_product';
     public $timestamps = false;
     protected $hidden = [];
 
@@ -45,5 +45,5 @@ class BusinessProposalProduct extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
-    }
+    }    
 }
