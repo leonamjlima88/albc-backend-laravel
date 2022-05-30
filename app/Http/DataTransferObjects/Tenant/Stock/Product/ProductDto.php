@@ -69,8 +69,8 @@ class ProductDto extends Data
     #[Rule('nullable|string')]
     public ?string $private_note,
 
-    #[Rule('nullable|string')]
-    public ?string $public_note,
+    #[Rule('nullable|string|max:80')]
+    public ?string $complement_note,
 
     #[Rule('required|boolean')]
     public bool $is_discontinued,

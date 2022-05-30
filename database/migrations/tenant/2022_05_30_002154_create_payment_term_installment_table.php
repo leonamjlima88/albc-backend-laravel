@@ -20,11 +20,11 @@ return new class extends Migration
                 ->constrained('payment_term')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-                $table->tinyInteger('range_in_days');
-                $table->tinyInteger('bill_next_month_on_the_day')->nullable();
-                $table->foreignId('bank_account_id')->constrained('bank_account');
-                $table->foreignId('payment_option_id')->constrained('payment_option');
-                $table->tinyInteger('is_to_apply_for_funding')->nullable();
+            $table->tinyInteger('range_in_days');
+            $table->tinyInteger('bill_next_month_on_the_day')->nullable();
+            $table->foreignId('bank_account_id')->constrained('bank_account');
+            $table->foreignId('payment_option_id')->constrained('payment_option');
+            $table->tinyInteger('is_to_apply_for_funding')->nullable();
         });
 
         DB::table('payment_term')->insert([

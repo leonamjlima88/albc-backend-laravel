@@ -32,7 +32,7 @@ return new class extends Migration
             $table->tinyInteger('is_to_move_the_stock')->default(0)->comment('Movimentar estoque');
             $table->tinyInteger('is_product_for_scales')->default(0)->comment('Produto para pesar na balança');
             $table->text('private_note')->nullable();
-            $table->text('public_note')->nullable();
+            $table->string('complement_note', 80)->nullable();
             $table->tinyInteger('is_discontinued')->nullable()->comment('Item descontinuado');
             $table->foreignId('unit_id')->constrained('unit');
             $table->foreignId('category_id')->nullable()->constrained('category');
