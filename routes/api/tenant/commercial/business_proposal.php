@@ -5,7 +5,7 @@ use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
 /**
- * BusinessProposal (Proposta Comercial)
+ * BusinessProposal (Proposta Comercial) 
  */
 Route::group([
   'middleware' => [
