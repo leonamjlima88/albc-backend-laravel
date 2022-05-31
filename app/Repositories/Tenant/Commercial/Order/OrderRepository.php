@@ -1,22 +1,43 @@
 <?php
 
-namespace App\Repositories\Tenant\Financial\PaymentTerm;
+namespace App\Repositories\Tenant\Commercial\Order;
 
-use App\Models\Tenant\Financial\PaymentTerm\PaymentTerm;
+use App\Models\Tenant\Commercial\Order\Order;
 use App\Repositories\BaseRepository;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Spatie\LaravelData\Data;
 
-class PaymentTermRepository extends BaseRepository
+class OrderRepository extends BaseRepository
 {
-  public function __construct(PaymentTerm $model)
+  public function __construct(Order $model)
   {
     parent::__construct($model);
   }
 
   public static function make(): Self
   {
-    return new self(new PaymentTerm);
+    return new self(new Order);
+  }
+
+  /**
+   * Método executado dentro de BaseRepository.index()
+   * Adicionar join de tabelas e mostra colunas específicas
+   *
+   * @param Builder $queryBuilder
+   * @return array
+   * Retornar um array contendo queryBuilder e string de colunas a serem exibidas
+   */
+  public function indexInside(Builder $queryBuilder): array
+  {
+    return [
+      $queryBuilder
+        ->leftJoin('person as customer', 'customer.id', 'order.customer_id')
+        ->leftJoin('person as seller', 'seller.id', 'order.seller_id'),
+      '`order`.*, ' . // order é uma palavra reservada, necessário escrever com ` ` 
+      'customer.business_name as customer_name, ' .
+      'seller.business_name as seller_name '
+    ];
   }
 
   /**
@@ -31,8 +52,12 @@ class PaymentTermRepository extends BaseRepository
     // Buscando apenas os campos que preciso
     $modelFound = $this->model
       ->whereId($id)
-      ->with('paymentTermInstallment.bankAccount.bank')      
-      ->with('paymentTermInstallment.paymentOption')      
+      ->with('customer:id,business_name')
+      ->with('seller:id,business_name')
+      ->with('orderProduct.product.unit')
+      ->with('orderProduct.product:id,name,unit_id')
+      ->with('orderPayment.bankAccount')
+      ->with('orderPayment.paymentOption')
       ->first();
 
     return $modelFound
@@ -53,7 +78,8 @@ class PaymentTermRepository extends BaseRepository
     $data = $dto->toArray();
     $executeStore = function ($data) {
       $modelFound = $this->model->create($data);
-      $modelFound->paymentTermInstallment()->createMany($data['payment_term_installment'] ?? []);
+      $modelFound->orderProduct()->createMany($data['order_product'] ?? []);
+      $modelFound->orderPayment()->createMany($data['order_payment'] ?? []);
 
       return $this->show($modelFound->id);
     };
@@ -79,12 +105,16 @@ class PaymentTermRepository extends BaseRepository
     $executeUpdate = function ($id, $data) {
       $modelFound = $this->model->findOrFail($id);
 
-      // Atualizar PaymentTerm
+      // Atualizar Order
       tap($modelFound)->update($data);
 
-      // Atualizar PaymentTermInstallment
-      $modelFound->paymentTermInstallment()->delete();
-      $modelFound->paymentTermInstallment()->createMany($data['payment_term_installment'] ?? []);
+      // Atualizar OrderProduct
+      $modelFound->orderProduct()->delete();
+      $modelFound->orderProduct()->createMany($data['order_product'] ?? []);
+
+      // Atualizar OrderPayment
+      $modelFound->orderPayment()->delete();
+      $modelFound->orderPayment()->createMany($data['order_payment'] ?? []);
 
       // Retornar registro atualizado
       return $this->show($modelFound->id);

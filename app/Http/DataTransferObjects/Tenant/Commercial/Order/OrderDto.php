@@ -45,13 +45,13 @@ class OrderDto extends Data
     public ?float $order_product_sum_total,
 
     #[Rule('nullable|numeric|min:0')]
+    public ?float $order_product_sum_historical_product_cost_total,
+
+    #[Rule('nullable|numeric|min:0')]
     public ?float $discount,
 
     #[Rule('nullable|numeric|min:0')]
     public ?float $total,
-
-    #[Rule('nullable|numeric|min:0')]
-    public ?float $order_product_sum_historical_product_cost_total,
 
     #[Rule('nullable|string|min:10')]
     public ?string $created_at,
@@ -60,7 +60,10 @@ class OrderDto extends Data
     public ?string $updated_at,
 
     /** @var OrderProductDto[] */
-    public ?DataCollection $order_product,
+    public DataCollection $order_product,
+
+    /** @var OrderPaymentDto[] */
+    public ?DataCollection $order_payment,
   ) {
   }
 

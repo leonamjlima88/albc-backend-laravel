@@ -80,7 +80,7 @@ class BusinessProposalRepository extends BaseRepository
     $data = $dto->toArray();
     $executeStore = function ($data) {
       $modelFound = $this->model->create($data);
-      $modelFound->businessProposalProduct()->createMany($data['business_proposal_product']);
+      $modelFound->businessProposalProduct()->createMany($data['business_proposal_product'] ?? []);
 
       return $this->show($modelFound->id);
     };
@@ -111,7 +111,7 @@ class BusinessProposalRepository extends BaseRepository
 
       // Atualizar BusinessProposalProduct
       $modelFound->businessProposalProduct()->delete();
-      $modelFound->businessProposalProduct()->createMany($data['business_proposal_product']);
+      $modelFound->businessProposalProduct()->createMany($data['business_proposal_product'] ?? []);
 
       // Retornar registro atualizado
       return $this->show($modelFound->id);

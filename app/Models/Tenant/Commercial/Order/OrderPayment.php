@@ -7,7 +7,7 @@ use App\Models\Tenant\Financial\PaymentOption\PaymentOption;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OrderProduct extends Model
+class OrderPayment extends Model
 {
     use HasFactory;
 

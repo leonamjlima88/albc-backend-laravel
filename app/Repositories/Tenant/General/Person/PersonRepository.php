@@ -77,8 +77,8 @@ class PersonRepository extends BaseRepository
     $data = $dto->toArray();
     $executeStore = function ($data) {
       $modelFound = $this->model->create($data);
-      $modelFound->personAddress()->createMany($data['person_address']);
-      $modelFound->personContact()->createMany($data['person_contact']);
+      $modelFound->personAddress()->createMany($data['person_address'] ?? []);
+      $modelFound->personContact()->createMany($data['person_contact'] ?? []);
 
       return $this->show($modelFound->id);
     };
@@ -109,11 +109,11 @@ class PersonRepository extends BaseRepository
 
       // Atualizar PersonAddress
       $modelFound->personAddress()->delete();
-      $modelFound->personAddress()->createMany($data['person_address']);
+      $modelFound->personAddress()->createMany($data['person_address'] ?? []);
 
       // Atualizar PersonContact
       $modelFound->personContact()->delete();
-      $modelFound->personContact()->createMany($data['person_contact']);
+      $modelFound->personContact()->createMany($data['person_contact'] ?? []);
 
       // Retornar registro atualizado
       return $this->show($modelFound->id);

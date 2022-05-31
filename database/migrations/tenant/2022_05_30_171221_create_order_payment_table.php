@@ -21,9 +21,9 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->foreignId('bank_account_id')->constrained('bank');
             $table->foreignId('payment_option_id')->constrained('payment_option');
-            $table->date('due_date');
+            $table->date('expire_at');
             $table->decimal('amount', 15, 4);
-            $table->text('note');
+            $table->text('note')->nullable();
         });
 
     }

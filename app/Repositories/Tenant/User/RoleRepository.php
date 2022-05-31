@@ -51,7 +51,7 @@ class RoleRepository extends BaseRepository
     $data = $dto->toArray();
     $executeStore = function ($data) {
       $modelFound = $this->model->create($data);
-      $modelFound->rolePermission()->createMany($data['role_permission']);
+      $modelFound->rolePermission()->createMany($data['role_permission'] ?? []);
 
       return $this->show($modelFound->id);
     };
@@ -82,7 +82,7 @@ class RoleRepository extends BaseRepository
 
       // Atualizar RolePermission
       $modelFound->rolePermission()->delete();
-      $modelFound->rolePermission()->createMany($data['role_permission']);
+      $modelFound->rolePermission()->createMany($data['role_permission'] ?? []);
 
       return $this->show($modelFound->id);
     };
