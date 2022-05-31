@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Models\Tenant\Commercial\BusinessProposal;
+namespace App\Models\Tenant\Commercial\Order;
 
+use App\Models\Tenant\General\Person\Person;
 use App\Models\Tenant\Stock\Product\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BusinessProposalProduct extends Model
+class OrderProduct extends Model
 {
     use HasFactory;
 
-    protected $table = 'business_proposal_product';
+    protected $table = 'order_product';
     public $timestamps = false;
     protected $hidden = [];
 
@@ -19,16 +20,22 @@ class BusinessProposalProduct extends Model
         'price' => 'float',
         'unit_discount' => 'float',
         'total' => 'float',
+        'historical_product_cost_price' => 'float',
+        'historical_product_cost_total' => 'float',
     ];
 
     protected $fillable = [
-        'business_proposal_id',
+        'order_id',
         'product_id',
         'complement_note',
         'quantity',
         'price',
         'unit_discount',
         'total',
+        'seller_id',
+        'historical_product_name',
+        'historical_product_cost_price',
+        'historical_product_cost_total',
     ];
 
     protected static function boot()
@@ -46,4 +53,9 @@ class BusinessProposalProduct extends Model
     {
         return $this->belongsTo(Product::class);
     }    
+
+    public function seller()
+    {
+        return $this->belongsTo(Person::class, 'seller_id', 'id');
+    }
 }

@@ -1,41 +1,47 @@
 <?php
 
-namespace App\Models\Tenant\Commercial\BusinessProposal;
+namespace App\Models\Tenant\Commercial\Order;
 
-use App\Http\DataTransferObjects\Tenant\Commercial\BusinessProposal\BusinessProposalDto;
-use App\Models\Tenant\Commercial\BusinessProposal\BusinessProposalProduct;
+use App\Http\DataTransferObjects\Tenant\Commercial\Order\OrderDto;
+use App\Models\Tenant\Commercial\Order\Enum\OrderApprovalEnum;
+use App\Models\Tenant\Commercial\Order\OrderProduct;
+use App\Models\Tenant\Commercial\Order\OrderPayment;
 use App\Models\Tenant\General\Person\Person;
-use App\Models\Tenant\General\Status\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\LaravelData\WithData;
 
-class BusinessProposal extends Model
+class Order extends Model
 {
     use HasFactory;
     use WithData;
         
-    protected $table = 'business_proposal';
+    protected $table = 'order';
     protected $dates = [];
-    protected $dataClass = BusinessProposalDto::class;
+    protected $dataClass = OrderDto::class;
     public $timestamps = true;
 
     protected $hidden = [
     ];
 
     protected $casts = [
-        'business_proposal_product_sum_total' => 'float',
+        'approval' => OrderApprovalEnum::class,
+        'order_product_sum_total' => 'float',
+        'discount' => 'float',
+        'total' => 'float',
+        'order_product_sum_historical_product_cost_total' => 'float',
     ];
 
     protected $fillable = [
         'customer_id',
         'seller_id',
-        'status_id',
+        'approval',
         'note',
         'internal_note',
-        'offer_valid_until',
-        'delivery_forecast_until',
-        'business_proposal_product_sum_total',
+        'order_product_sum_total',
+        'discount',
+        'total',
+        'order_product_sum_historical_product_cost_total',
     ];
 
     protected static function boot()
@@ -59,13 +65,13 @@ class BusinessProposal extends Model
         return $this->belongsTo(Person::class, 'seller_id', 'id');
     }
 
-    public function status()
+    public function orderProduct()
     {
-        return $this->belongsTo(Status::class);
-    }
+        return $this->hasMany(OrderProduct::class);
+    }    
 
-    public function businessProposalProduct()
+    public function orderPayment()
     {
-        return $this->hasMany(BusinessProposalProduct::class);
+        return $this->hasMany(OrderPayment::class);
     }    
 }

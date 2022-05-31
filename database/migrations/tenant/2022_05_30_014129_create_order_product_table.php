@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('business_proposal_product', function (Blueprint $table) {
+        Schema::create('order_product', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('business_proposal_id')
-                ->constrained('business_proposal')
+            $table->foreignId('order_id')
+                ->constrained('order')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreignId('product_id')->constrained('product');
@@ -25,6 +25,10 @@ return new class extends Migration
             $table->decimal('price', 15, 4)->nullable();
             $table->decimal('unit_discount', 15, 4)->nullable();
             $table->decimal('total', 15, 4)->nullable();
+            $table->foreignId('seller_id')->constrained('person');
+            $table->string('historical_product_name', 120)->nullable();
+            $table->decimal('historical_product_cost_price', 15, 4)->nullable();
+            $table->decimal('historical_product_cost_total', 15, 4)->nullable();
         });        
     }
 
@@ -35,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('business_proposal_product');
+        Schema::dropIfExists('order_product');
     }
 };

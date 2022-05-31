@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('account', 30); 
             $table->string('account_digit', 10)->nullable(); 
             $table->string('type', 80)->nullable(); 
-            $table->text('general_note')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
 

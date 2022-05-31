@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 120)->index();
             $table->tinyInteger('type')->default(0)->comment('[0=Produto, 1=Serviço]');
-            $table->string('reference_code', 36)->index()->nullable();
+            $table->string('sku_code', 36)->index()->nullable();
             $table->string('ean_code', 36)->index()->nullable();
             $table->string('manufacturing_code', 36)->index()->nullable();
             $table->string('identification_code', 36)->index()->nullable();
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->decimal('packing_weight', 15, 4)->nullable()->comment('Peso da emablagem');
             $table->tinyInteger('is_to_move_the_stock')->default(0)->comment('Movimentar estoque');
             $table->tinyInteger('is_product_for_scales')->default(0)->comment('Produto para pesar na balança');
-            $table->text('private_note')->nullable();
+            $table->text('internal_note')->nullable();
             $table->string('complement_note', 80)->nullable();
             $table->tinyInteger('is_discontinued')->nullable()->comment('Item descontinuado');
             $table->foreignId('unit_id')->constrained('unit');

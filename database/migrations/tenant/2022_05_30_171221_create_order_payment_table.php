@@ -13,19 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('person_contact', function (Blueprint $table) {
+        Schema::create('order_payment', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('person_id')
-                ->constrained('person')
+            $table->foreignId('order_id')
+                ->constrained('order')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('name', 80)->nullable();
-            $table->string('ein', 20)->nullable();
-            $table->string('type', 80)->nullable();
-            $table->text('note')->nullable();
-            $table->string('phone', 30)->nullable();
-            $table->string('email', 100)->nullable();
+            $table->foreignId('bank_account_id')->constrained('bank');
+            $table->foreignId('payment_option_id')->constrained('payment_option');
+            $table->date('due_date');
+            $table->decimal('amount', 15, 4);
+            $table->text('note');
         });
+
     }
 
     /**
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('person_contact');
+        Schema::dropIfExists('order_payment');
     }
 };

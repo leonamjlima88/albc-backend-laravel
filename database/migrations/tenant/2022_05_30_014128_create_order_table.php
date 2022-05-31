@@ -13,16 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('business_proposal', function (Blueprint $table) {
+        Schema::create('order', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->nullable()->constrained('person');
             $table->foreignId('seller_id')->constrained('person');
-            $table->foreignId('status_id')->constrained('status');
+            $table->tinyInteger('approval')->nullable()->comment('[0=Pendente, 1=Concluído, 2=Cancelado]');
             $table->text('note')->nullable();
             $table->text('internal_note')->nullable();
-            $table->date('offer_valid_until')->nullable()->comment('Proposta válida até');
-            $table->date('delivery_forecast_until')->nullable()->comment('Previsão de entrega até');
-            $table->decimal('business_proposal_product_sum_total', 15, 4)->nullable();
+            $table->decimal('order_product_sum_total', 15, 4)->nullable();
+            $table->decimal('discount', 15, 4)->nullable();
+            $table->decimal('total', 15, 4)->nullable();
+            $table->decimal('order_product_sum_historical_product_cost_total', 15, 4)->nullable();
             $table->timestamps();
         });
     }
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('business_proposal');
+        Schema::dropIfExists('order');
     }
 };

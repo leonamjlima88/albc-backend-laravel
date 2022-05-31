@@ -34,7 +34,7 @@ return new class extends Migration
             $table->string('company_email', 100)->nullable();
             $table->string('financial_email', 100)->nullable();
             $table->string('internet_page', 255)->nullable();
-            $table->text('general_note')->nullable();
+            $table->text('note')->nullable();
             $table->text('bank_note')->nullable();
             $table->text('commercial_note')->nullable();
             $table->integer('is_customer')->nullable();

@@ -76,7 +76,7 @@ class PersonDto extends Data
     public ?string $internet_page,
 
     #[Rule('nullable|string')]
-    public ?string $general_note,
+    public ?string $note,
 
     #[Rule('nullable|string')]
     public ?string $bank_note,

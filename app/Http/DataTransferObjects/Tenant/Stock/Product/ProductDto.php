@@ -26,7 +26,7 @@ class ProductDto extends Data
 
     public int $type,
 
-    public ?string $reference_code,
+    public ?string $sku_code,
 
     public ?string $ean_code,
 
@@ -66,11 +66,11 @@ class ProductDto extends Data
     #[Rule('required|boolean')]
     public bool $is_product_for_scales,
 
-    #[Rule('nullable|string')]
-    public ?string $private_note,
-
     #[Rule('nullable|string|max:80')]
     public ?string $complement_note,
+
+    #[Rule('nullable|string')]
+    public ?string $internal_note,
 
     #[Rule('required|boolean')]
     public bool $is_discontinued,
@@ -126,13 +126,16 @@ class ProductDto extends Data
   {
     static::prepareForValidation();
     return [
-      'type' => [new Enum(ProductTypeEnum::class)],
-      'reference_code' => [
+      'type' => [
+        'required',
+        new Enum(ProductTypeEnum::class)
+      ],
+      'sku_code' => [
         'nullable',
         'string',
         'max:36',
-        ValidationRule::unique('product', 'reference_code')->where(function ($query) {
-          return $query->where('reference_code', '>', '');
+        ValidationRule::unique('product', 'sku_code')->where(function ($query) {
+          return $query->where('sku_code', '>', '');
         }),
       ],
       'ean_code' => [

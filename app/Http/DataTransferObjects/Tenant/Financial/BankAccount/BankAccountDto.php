@@ -42,7 +42,7 @@ class BankAccountDto extends Data
     public ?string $type,
 
     #[Rule('nullable|string')]
-    public ?string $general_note,
+    public ?string $note,
 
     #[Rule('nullable|string|min:10')]
     public ?string $created_at,

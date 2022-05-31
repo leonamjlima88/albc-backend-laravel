@@ -20,7 +20,7 @@ class PersonContact extends Model
         'name',
         'ein',
         'type',
-        'general_note',
+        'note',
         'phone',
         'email',
     ];

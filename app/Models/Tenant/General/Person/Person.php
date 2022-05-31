@@ -52,7 +52,7 @@ class Person extends Model
         'company_email',
         'financial_email',
         'internet_page',
-        'general_note',
+        'note',
         'bank_note',
         'commercial_note',
         'is_customer',

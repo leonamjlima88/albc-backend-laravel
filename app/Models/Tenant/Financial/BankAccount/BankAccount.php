@@ -32,7 +32,7 @@ class BankAccount extends Model
         'account',
         'account_digit',
         'type',
-        'general_note',
+        'note',
     ];
 
     protected static function boot()

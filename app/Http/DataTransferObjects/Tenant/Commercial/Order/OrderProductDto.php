@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\DataTransferObjects\Tenant\Commercial\BusinessProposal;
+namespace App\Http\DataTransferObjects\Tenant\Commercial\Order;
 
 use Spatie\LaravelData\Attributes\Validation\Rule;
 use Spatie\LaravelData\Data;
 
-class BusinessProposalProductDto extends Data
+class OrderProductDto extends Data
 {
   public static function authorize(): bool
   {
@@ -17,7 +17,7 @@ class BusinessProposalProductDto extends Data
     public ?int $id,
 
     #[Rule('nullable|integer')]
-    public ?int $business_proposal_id,
+    public ?int $order_id,
 
     #[Rule('required|integer|exists:product,id')]
     public int $product_id,
@@ -39,7 +39,22 @@ class BusinessProposalProductDto extends Data
 
     #[Rule('nullable|numeric|min:0')]
     public ?float $total,
-  ) {
+
+    #[Rule('required|integer|exists:person,id')]
+    public int $seller_id,
+
+    #[Rule('nullable')]
+    public object|array|null $seller,
+
+    #[Rule('nullable|string|max:120')]
+    public ?string $historical_product_name,
+
+    #[Rule('nullable|numeric|min:0')]
+    public ?float $historical_product_cost_price,
+
+    #[Rule('nullable|numeric|min:0')]
+    public ?float $historical_product_cost_total,    
+  ){
   }
 
   public static function rules(): array

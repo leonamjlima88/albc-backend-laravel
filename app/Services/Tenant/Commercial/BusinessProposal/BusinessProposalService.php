@@ -55,7 +55,7 @@ class BusinessProposalService
     // Calcular valores
     $dto->business_proposal_product_sum_total = 0;
     foreach ($dto->business_proposal_product as $value) {
-      $value->total = ($value->sale_price - $value->unit_discount) * $value->quantity;      
+      $value->total = ($value->price - $value->unit_discount) * $value->quantity;      
       $dto->business_proposal_product_sum_total += $value->total;
     }
   }
