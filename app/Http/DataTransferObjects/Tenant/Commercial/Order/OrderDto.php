@@ -45,7 +45,7 @@ class OrderDto extends Data
     public ?float $order_product_sum_total,
 
     #[Rule('nullable|numeric|min:0')]
-    public ?float $order_product_sum_historical_product_cost_total,
+    public ?float $order_product_sum_hist_product_cost_total,
 
     #[Rule('nullable|numeric|min:0')]
     public ?float $discount,
@@ -88,7 +88,7 @@ class OrderDto extends Data
   public static function withValidator(Validator $validator): void
   {
     $validator->after(function ($validator) {
-        // $validator->errors()->add('field', 'message');
+      // $validator->errors()->add('fieldX', 'erro X');
     });
   }
 

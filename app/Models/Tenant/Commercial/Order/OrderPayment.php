@@ -23,7 +23,7 @@ class OrderPayment extends Model
         'order_id',
         'bank_account_id',
         'payment_option_id',
-        'due_date',
+        'expire_at',
         'amount',
         'note',
     ];

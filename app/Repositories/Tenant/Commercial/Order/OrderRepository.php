@@ -55,9 +55,9 @@ class OrderRepository extends BaseRepository
       ->with('customer:id,business_name')
       ->with('seller:id,business_name')
       ->with('orderProduct.product.unit')
-      ->with('orderProduct.product:id,name,unit_id')
-      ->with('orderPayment.bankAccount')
-      ->with('orderPayment.paymentOption')
+      ->with('orderProduct.product:id,name,unit_id')      
+      ->with('orderPayment.bankAccount:id,name')
+      ->with('orderPayment.paymentOption:id,name,is_automatic_conference')
       ->first();
 
     return $modelFound

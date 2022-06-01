@@ -2,6 +2,7 @@
 
 namespace App\Services\Tenant\Commercial\Order;
 
+use App\Exceptions\CustomValidationException;
 use App\Http\DataTransferObjects\Tenant\Commercial\Order\OrderDto;
 use App\Repositories\Tenant\Commercial\Order\OrderRepository;
 use App\Services\Tenant\User\RoleService;
@@ -50,19 +51,62 @@ class OrderService
     return RoleService::permissionTemplateDefault('order', 'Venda');
   }  
 
+  /**
+   * Antes de salvar (Insert/Update)
+   *
+   * @param OrderDto $dto
+   * @return void
+   */
   private function beforeSave(OrderDto $dto)
   {
-    // Calcular valores
+    $error = [];
+    $this->calculateOrder($dto);
+    $this->validateOrder($dto, $error);
+    throw_if($error, new CustomValidationException($error));
+  }
+
+  /**
+   * Calcular valores da Venda
+   *
+   * @param OrderDto $dto
+   * @return void
+   */
+  private function calculateOrder(OrderDto $dto)
+  {
     $dto->order_product_sum_total = 0;
-    $dto->order_product_sum_historical_product_cost_total = 0;
+    $dto->order_product_sum_hist_product_cost_total = 0;
     foreach ($dto->order_product as $value) {
       $value->total = ($value->price - $value->unit_discount) * $value->quantity;
-      $value->historical_product_cost_total = $value->historical_product_cost_price * $value->quantity;
+      $value->product_cost_total = $value->hist_product_cost_price * $value->quantity;
       
       $dto->order_product_sum_total += $value->total;
-      $dto->order_product_sum_historical_product_cost_total += $value->historical_product_cost_total;
+      $dto->order_product_sum_hist_product_cost_total += $value->product_cost_total;
     }  
 
     $dto->total = $dto->order_product_sum_total - $dto->discount;
+  }
+
+  /**
+   * Validar Venda
+   *
+   * @param OrderDto $dto
+   * @param array $error
+   * @return void
+   */
+  private function validateOrder(OrderDto $dto, array &$error)
+  {
+    if (!$dto->total)
+      return;
+      
+    // Calcular valor total de pagamentos
+    $order_payment_sum_amount = 0;
+    foreach ($dto->order_payment ?? [] as $value) {
+      $order_payment_sum_amount += $value->amount;
+    }
+
+    // Verificar se valor do pagamento confere com o total da venda
+    if (!numbersAreEqual($dto->total, $order_payment_sum_amount, true, 0.004)) {      
+      $error['order_payment'][] = "Total do pagamento não confere com total da venda.";
+    }    
   }
 }

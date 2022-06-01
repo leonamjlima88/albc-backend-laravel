@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('note')->nullable();
             $table->text('internal_note')->nullable();
             $table->decimal('order_product_sum_total', 15, 4)->nullable();
-            $table->decimal('order_product_sum_historical_product_cost_total', 15, 4)->nullable();
+            $table->decimal('order_product_sum_hist_product_cost_total', 15, 4)->nullable();
             $table->decimal('discount', 15, 4)->nullable();
             $table->decimal('total', 15, 4)->nullable();
             $table->timestamps();

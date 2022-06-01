@@ -27,7 +27,7 @@ class Order extends Model
     protected $casts = [
         'approval' => OrderApprovalEnum::class,
         'order_product_sum_total' => 'float',
-        'order_product_sum_historical_product_cost_total' => 'float',
+        'order_product_sum_hist_product_cost_total' => 'float',
         'discount' => 'float',
         'total' => 'float',
     ];
@@ -39,7 +39,7 @@ class Order extends Model
         'note',
         'internal_note',
         'order_product_sum_total',
-        'order_product_sum_historical_product_cost_total',
+        'order_product_sum_hist_product_cost_total',
         'discount',
         'total',
     ];

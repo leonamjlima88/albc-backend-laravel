@@ -26,9 +26,9 @@ return new class extends Migration
             $table->decimal('unit_discount', 15, 4)->nullable();
             $table->decimal('total', 15, 4)->nullable();
             $table->foreignId('seller_id')->constrained('person');
-            $table->string('historical_product_name', 120)->nullable();
-            $table->decimal('historical_product_cost_price', 15, 4)->nullable();
-            $table->decimal('historical_product_cost_total', 15, 4)->nullable();
+            $table->string('hist_product_name', 120);
+            $table->decimal('hist_product_cost_price', 15, 4);
+            $table->decimal('hist_product_cost_total', 15, 4);
         });        
     }
 

@@ -20,8 +20,8 @@ class OrderProduct extends Model
         'price' => 'float',
         'unit_discount' => 'float',
         'total' => 'float',
-        'historical_product_cost_price' => 'float',
-        'historical_product_cost_total' => 'float',
+        'hist_product_cost_price' => 'float',
+        'hist_product_cost_total' => 'float',
     ];
 
     protected $fillable = [
@@ -33,9 +33,9 @@ class OrderProduct extends Model
         'unit_discount',
         'total',
         'seller_id',
-        'historical_product_name',
-        'historical_product_cost_price',
-        'historical_product_cost_total',
+        'hist_product_name',
+        'hist_product_cost_price',
+        'hist_product_cost_total',
     ];
 
     protected static function boot()

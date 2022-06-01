@@ -46,14 +46,14 @@ class OrderProductDto extends Data
     #[Rule('nullable')]
     public object|array|null $seller,
 
-    #[Rule('nullable|string|max:120')]
-    public ?string $historical_product_name,
+    #[Rule('required|string|max:120')]
+    public string $hist_product_name,
 
-    #[Rule('nullable|numeric|min:0')]
-    public ?float $historical_product_cost_price,
+    #[Rule('required|numeric|min:0')]
+    public float $hist_product_cost_price,
 
-    #[Rule('nullable|numeric|min:0')]
-    public ?float $historical_product_cost_total,    
+    #[Rule('required|numeric|min:0')]
+    public float $hist_product_cost_total,    
   ){
   }
 
