@@ -73,7 +73,7 @@ class OrderService
    */
   private function calculateOrder(OrderDto $dto)
   {
-    $dto->order_product_sum_total = 0;
+    $dto->order_product_sum_total = 0; 
     $dto->order_product_sum_hist_product_cost_total = 0;
     foreach ($dto->order_product as $value) {
       $value->total = ($value->price - $value->unit_discount) * $value->quantity;
