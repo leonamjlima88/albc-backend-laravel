@@ -6,4 +6,6 @@ return [
   'array_must_have_single_record_default' => 'The list must have a single record default.',
   'array_can_not_be_null' => 'The list can not be null.',
   'at_least_one_field_must_be_filled' => 'At least one field must be filled.',
+  'array_cannot_have_duplicate_records' => 'The :attribute array cannot have duplicate records(:value)!',
+  'enum_is_not_valid' => 'The selected :attribute is invalid. Valid values: :value',
 ];

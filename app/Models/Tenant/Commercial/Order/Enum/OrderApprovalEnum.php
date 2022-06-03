@@ -2,9 +2,13 @@
 
 namespace App\Models\Tenant\Commercial\Order\Enum;
 
-enum OrderApprovalEnum: int 
+use App\Traits\EnumEnhancements;
+
+enum OrderApprovalEnum: string
 {
-  case PENDING = 0; // Pendente
-  case CLOSED = 1; // Concluído
-  case CANCELED = 2; // Cancelado
+  use EnumEnhancements;
+
+  case PENDING = 'pending';
+  case CLOSED = 'closed';
+  case CANCELED = 'canceled';
 }

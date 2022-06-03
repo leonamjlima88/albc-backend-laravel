@@ -2,8 +2,12 @@
 
 namespace App\Models\Tenant\Stock\Product\Enum;
 
-enum ProductTypeEnum: int
+use App\Traits\EnumEnhancements;
+
+enum ProductTypeEnum: string
 {
-  case PRODUCT = 0; // Produto
-  case SERVICE = 1; // Serviço
+  use EnumEnhancements;
+
+  case PRODUCT = 'product';
+  case SERVICE = 'service';
 }

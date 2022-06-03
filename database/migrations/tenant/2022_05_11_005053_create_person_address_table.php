@@ -19,7 +19,7 @@ return new class extends Migration
                 ->constrained('person')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->tinyInteger('type')->default(0)->comment('[0=Entrega, 1=Cobrança]');
+            $table->string('type', 10)->index()->comment('[delivery, billing]');
             $table->string('recipient', 80)->nullable()->index();
             $table->string('ein', 20)->nullable()->index();
             $table->string('zipcode', 10)->nullable();

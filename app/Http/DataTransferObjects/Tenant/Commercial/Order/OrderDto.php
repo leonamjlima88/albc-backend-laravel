@@ -33,7 +33,7 @@ class OrderDto extends Data
     #[Rule('nullable')]
     public object|array|null $seller,
 
-    public ?int $approval,
+    public string $approval,
 
     #[Rule('nullable|string')]
     public ?string $note,
@@ -79,7 +79,7 @@ class OrderDto extends Data
     static::prepareForValidation();
     return [
       'approval' => [
-        'nullable',
+        'required',
         new Enum(OrderApprovalEnum::class)
       ],
     ];
@@ -90,6 +90,15 @@ class OrderDto extends Data
     $validator->after(function ($validator) {
       // $validator->errors()->add('fieldX', 'erro X');
     });
+  }
+
+  public static function messages(): array
+  {
+    return [
+      'approval.Illuminate\Validation\Rules\Enum' => trans(
+        'request_validation_lang.enum_is_not_valid', ['value' => OrderApprovalEnum::valueList()]
+      ),
+    ];
   }
 
   /**

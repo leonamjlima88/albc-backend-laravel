@@ -52,8 +52,8 @@ class OrderProductDto extends Data
     #[Rule('required|numeric|min:0')]
     public float $hist_product_cost_price,
 
-    #[Rule('required|numeric|min:0')]
-    public float $hist_product_cost_total,    
+    #[Rule('nullable|numeric|min:0')]
+    public ?float $hist_product_cost_total,    
   ){
   }
 

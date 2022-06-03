@@ -22,7 +22,7 @@ class PersonAddressDto extends Data
     #[Rule('nullable|integer')]
     public ?int $person_id,
 
-    public int $type,
+    public string $type,
 
     #[Rule('nullable|string|max:80')]
     public ?string $recipient,
@@ -55,10 +55,23 @@ class PersonAddressDto extends Data
   ) {
   }
 
+  // Preparar dados para validação
+  public static function prepareForValidation(): void
+  {
+    $isCpf = strlen(onlyNumbers(request('ein', ''))) <= 11;
+    request()->merge([
+      'is_final_customer' => $isCpf,
+    ]);
+  }
+
   public static function rules(): array
   {
+    static::prepareForValidation();
     return [
-      'type' => [new Enum(PersonAddressTypeEnum::class)],
+      'type' => [
+        'required',
+        new Enum(PersonAddressTypeEnum::class)
+      ],
       'ein' => [
         'nullable',
         'string',
@@ -74,4 +87,12 @@ class PersonAddressDto extends Data
       $fail(trans('request_validation_lang.field_is_not_valid', ['value' => $value]));
     }
   }
+
+  // public static function messages(): array
+  // {
+  //   return [
+  //     'person_address.*.type.required' => 'A dsadsasa type title is required',
+  //     // 'person_address.*.type.required' => 'A dsadsasa type title is required',
+  //   ];
+  // }
 }

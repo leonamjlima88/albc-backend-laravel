@@ -60,9 +60,10 @@ class OrderService
   private function beforeSave(OrderDto $dto)
   {
     $error = [];
-    $this->calculateOrder($dto);
     $this->validateOrder($dto, $error);
     throw_if($error, new CustomValidationException($error));
+
+    $this->calculateOrder($dto);
   }
 
   /**
@@ -77,10 +78,10 @@ class OrderService
     $dto->order_product_sum_hist_product_cost_total = 0;
     foreach ($dto->order_product as $value) {
       $value->total = ($value->price - $value->unit_discount) * $value->quantity;
-      $value->product_cost_total = $value->hist_product_cost_price * $value->quantity;
+      $value->hist_product_cost_total = $value->hist_product_cost_price * $value->quantity;
       
       $dto->order_product_sum_total += $value->total;
-      $dto->order_product_sum_hist_product_cost_total += $value->product_cost_total;
+      $dto->order_product_sum_hist_product_cost_total += $value->hist_product_cost_total;
     }  
 
     $dto->total = $dto->order_product_sum_total - $dto->discount;
