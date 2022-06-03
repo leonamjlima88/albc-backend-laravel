@@ -21,8 +21,7 @@ class PaymentOptionService
   public function destroy(int $id): bool
   {
     // Bloquear exclusão de registros que são necessários para uso do sistema
-    throw_if(($id <= 8), new \Exception(trans('message_lang.this_is_system_control_cannot_delete')));
-    
+    throw_if(($id <= 8), new \Exception(trans('message_lang.this_is_system_control_cannot_delete')));    
     return $this->repository->destroy($id);
   }
 

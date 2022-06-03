@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('product', function (Blueprint $table) {
             $table->id();
             $table->string('name', 120)->index();
-            $table->tinyInteger('type')->default(0)->comment('[0=Produto, 1=Serviço]');
+            $table->char('type', 7)->index()->comment('[product, service]');
             $table->string('sku_code', 36)->index()->nullable();
             $table->string('ean_code', 36)->index()->nullable();
             $table->string('manufacturing_code', 36)->index()->nullable();
@@ -39,7 +39,7 @@ return new class extends Migration
             $table->foreignId('brand_id')->nullable()->constrained('brand');
             $table->foreignId('size_id')->nullable()->constrained('size');
             $table->foreignId('storage_location_id')->nullable()->constrained('storage_location');
-            $table->tinyInteger('genre')->default(0)->comment('[0=Masculino, 1=Feminino, 2=Unissex]');
+            $table->string('genre', 10)->comment('[none, masculine, feminine, unissex]');
             $table->timestamps();
         });
     }

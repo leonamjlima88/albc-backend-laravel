@@ -2,6 +2,7 @@
 
 namespace App\Http\DataTransferObjects\Tenant\General\Person;
 
+use App\Models\Tenant\General\Person\Enum\PersonAddressTypeEnum;
 use Illuminate\Validation\Rule as ValidationRule;
 use Illuminate\Validation\Validator;
 use Spatie\LaravelData\Attributes\Validation\Rule;
@@ -22,8 +23,8 @@ class PersonDto extends Data
     #[Rule('required|string|max:80')]
     public string $business_name,
 
-    #[Rule('nullable|string|max:80')]
-    public ?string $alias_name,
+    #[Rule('required|string|max:80')]
+    public string $alias_name,
 
     public ?string $ein,
 
@@ -126,6 +127,7 @@ class PersonDto extends Data
   public static function prepareForValidation(): void
   {
     request()->merge([
+      'alias_name' =>  request('alias_name', '') ?: request('business_name', ''),
       'ein' => formatCpfCnpj(request('ein', '')),
     ]);
   }  
@@ -166,6 +168,15 @@ class PersonDto extends Data
         $validator->errors()->add('is_customer|is_seller|is_supplier|...', trans('request_validation_lang.at_least_one_field_must_be_filled'));
       }
     });
+  }
+
+  public static function messages(): array
+  {
+    return [
+      'person_address.*.type.Illuminate\Validation\Rules\Enum' => trans(
+        'request_validation_lang.enum_is_not_valid', ['value' => PersonAddressTypeEnum::valueList()]
+      ),
+    ];
   }
 
   /**

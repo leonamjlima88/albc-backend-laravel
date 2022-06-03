@@ -2,9 +2,14 @@
 
 namespace App\Models\Tenant\Stock\Product\Enum;
 
-enum ProductGenreEnum: int
+use App\Traits\EnumEnhancements;
+
+enum ProductGenreEnum: string
 {
-  case MASCULINE = 0; // Masculino
-  case FEMININE = 1; // Feminino
-  case UNISEX = 2; // Unissex
+  use EnumEnhancements;
+
+  case NONE = 'none';
+  case MASCULINE = 'masculine';
+  case FEMININE = 'feminine';
+  case UNISEX = 'unissex'; 
 }

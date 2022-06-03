@@ -20,6 +20,8 @@ class StatusService
 
   public function destroy(int $id): bool
   {
+    // Bloquear exclusão de registros que são necessários para uso do sistema
+    throw_if(($id <= 7), new \Exception(trans('message_lang.this_is_system_control_cannot_delete')));
     return $this->repository->destroy($id);
   }
 
@@ -35,12 +37,12 @@ class StatusService
 
   public function store(StatusDto $dto): StatusDto
   {
-    return $this->repository->setTransaction(false)->store($dto);
+    return $this->repository->setTransaction(true)->store($dto);
   }
 
   public function update(int $id, StatusDto $dto): StatusDto
   {
-    return $this->repository->setTransaction(false)->update($id, $dto);
+    return $this->repository->setTransaction(true)->update($id, $dto);
   }
 
   public static function permissionTemplate(): array

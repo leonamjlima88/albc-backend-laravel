@@ -49,7 +49,6 @@ class OrderRepository extends BaseRepository
    */
   public function show(int $id): Data|null
   {
-    // Buscando apenas os campos que preciso
     $modelFound = $this->model
       ->whereId($id)
       ->with('customer:id,business_name')

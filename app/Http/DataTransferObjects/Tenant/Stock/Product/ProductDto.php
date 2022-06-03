@@ -24,7 +24,7 @@ class ProductDto extends Data
     #[Rule('required|string|max:120')]
     public string $name,
 
-    public int $type,
+    public ?string $type,
 
     public ?string $sku_code,
 
@@ -105,7 +105,7 @@ class ProductDto extends Data
     #[Rule('nullable')]
     public object|array|null $storage_location,
 
-    public int $genre,
+    public ?string $genre,
 
     #[Rule('nullable|string|min:10')]
     public ?string $created_at,
@@ -118,7 +118,10 @@ class ProductDto extends Data
   // Preparar dados para validação
   public static function prepareForValidation(): void
   {
-    request()->merge([]);
+    request()->merge([
+      'type' =>  request('type', '')  ?: 'product',
+      'genre' => request('genre', '') ?: 'none',
+    ]);
   }
 
   // Regras de validação
@@ -146,7 +149,10 @@ class ProductDto extends Data
           return $query->where('ean_code', '>', '');
         }),
       ],
-      'genre' => [new Enum(ProductGenreEnum::class)],
+      'genre' => [
+        'required',
+        new Enum(ProductGenreEnum::class)
+      ],
     ];
   }
 
@@ -155,6 +161,18 @@ class ProductDto extends Data
     $validator->after(function ($validator) {
       // $validator->errors()->add('filed', 'error');
     });
+  }
+
+  public static function messages(): array
+  {
+    return [
+      'type.Illuminate\Validation\Rules\Enum' => trans(
+        'request_validation_lang.enum_is_not_valid', ['value' => ProductTypeEnum::valueList()]
+      ),
+      'genre.Illuminate\Validation\Rules\Enum' => trans(
+        'request_validation_lang.enum_is_not_valid', ['value' => ProductGenreEnum::valueList()]
+      ),
+    ];
   }
 
   /**

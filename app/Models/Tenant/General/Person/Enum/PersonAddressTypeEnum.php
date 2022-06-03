@@ -2,8 +2,12 @@
 
 namespace App\Models\Tenant\General\Person\Enum;
 
-enum PersonAddressTypeEnum: int
+use App\Traits\EnumEnhancements;
+
+enum PersonAddressTypeEnum: string
 {
-  case DELIVERY = 0; // Entrega
-  case BILLING = 1; // Cobrança       
+  use EnumEnhancements;
+
+  case DELIVERY = 'delivery';
+  case BILLING = 'billing';
 }

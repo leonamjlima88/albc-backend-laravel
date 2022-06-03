@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')->nullable()->constrained('person');
             $table->foreignId('seller_id')->constrained('person');
-            $table->tinyInteger('approval')->nullable()->comment('[0=Pendente, 1=Concluído, 2=Cancelado]');
+            $table->string('approval', 10)->index()->comment('[pending, closed, canceled]');
             $table->text('note')->nullable();
             $table->text('internal_note')->nullable();
             $table->decimal('order_product_sum_total', 15, 4)->nullable();
